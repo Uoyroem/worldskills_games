@@ -1,0 +1,16 @@
+{
+  "name": "worldskills_games",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "compile:scss": "sass --watch scss/main.scss worldskills_games/static/css/index.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "material-icons": "^1.13.1",
+    "sass": "^1.58.3"
+  }
+}

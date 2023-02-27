@@ -1,0 +1,8 @@
+node_modules/
+package-lock.json
+db.sqlite3
+media
+!*/**/__init__.py
+*/**/__pycache__
+*/migrations/*.py
+venv

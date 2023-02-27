@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  {% block title %}
+  <title>WorldSkills - Games</title>
+  {% endblock %}
+</head>
+
+<body>
+  <div class="page">
+    <header class="border pt-3 pb-3 m-1">
+      <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+          <h2>WorldSkills - Games</h2>
+          <div>
+            <a href="#">Sign Up</a>
+            <a href="#">Sign In</a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="border m-1">
+      {% block content %}
+
+      {% endblock %}
+    </main>
+    <footer class="border pt-3 pb-3 mt-auto m-1">
+      <div class="container">
+        Сделано на django
+      </div>
+    </footer>
+  </div>
+</body>
+
+</html>
