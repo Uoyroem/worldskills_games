@@ -1,8 +1,13 @@
 from django.db import models
+from django.urls import reverse
+from django.utils.text import slugify
+
+
 from users import models as users_models
 
 
 class Game(models.Model):
+  slug = models.SlugField(max_length=80)
   title = models.CharField(max_length=80)
   author = models.ForeignKey(
       users_models.Profile, on_delete=models.SET_NULL, related_name='own_games', null=True)
@@ -12,6 +17,9 @@ class Game(models.Model):
 
   class Meta:
     ordering = ['title']
+
+  def get_absolute_url(self):
+    return reverse('game', kwargs={'name': self.slug})
 
 
 class GameResult(models.Model):
