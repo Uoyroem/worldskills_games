@@ -4,7 +4,7 @@
 <section class="p-5">
   <div class="container w-75">
     <div class="d-flex align-items-center justify-content-between mb-3">
-      <h3>{{games.count}} Games Aviable</h3>
+      <h3>{{object_list.count}} Games Aviable</h3>
       <div class="btn-group" role="group" aria-label="Basic example">
         <input type="radio" class="btn-check" name="filter" id="popularity" autocomplete="off" checked>
         <label class="btn btn-primary" for="popularity">Popularity</label>
@@ -14,7 +14,7 @@
         <label class="btn btn-primary" for="alphabetically">Alphabetically</label>
       </div>
     </div>
-    {% for game in games %}
+    {% for game in object_list %}
     <div class="border p-3">
       <div class="d-flex align-items-center justify-content-between">
         <h3><a href="">{{game.title}}</a> by {{game.author}}</h3>

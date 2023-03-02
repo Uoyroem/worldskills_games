@@ -1,19 +1,28 @@
+from functools import partial
+
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
-
 from users import models as users_models
 
 
+def game_file_upload_to(dirname: str, instance: 'Game', filename: str):
+  return f'user_{instance.author.pk}/{dirname}/{filename}'
+
+
+game_js_upload_to = partial(game_file_upload_to, 'scripts')
+game_thumbnail_upload_to = partial(game_file_upload_to, 'thumbnails')
+
+
 class Game(models.Model):
-  slug = models.SlugField(max_length=80)
+  slug = models.SlugField('Url', max_length=80)
   title = models.CharField(max_length=80)
   author = models.ForeignKey(
       users_models.Profile, on_delete=models.SET_NULL, related_name='own_games', null=True)
   description = models.TextField()
-  thumbnail = models.ImageField(upload_to='thumbnails/')
-  js_script_file = models.FileField(upload_to='js_game_scripts/')
+  thumbnail = models.ImageField(upload_to=game_thumbnail_upload_to)
+  js_script_file = models.FileField('Game script', upload_to=game_js_upload_to)
 
   class Meta:
     ordering = ['title']
