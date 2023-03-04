@@ -11,8 +11,14 @@ def game_file_upload_to(dirname: str, instance: 'Game', filename: str):
   return f'user_{instance.author.pk}/{dirname}/{filename}'
 
 
-game_js_upload_to = partial(game_file_upload_to, 'scripts')
+game_files_upload_to = partial(game_file_upload_to, 'games')
 game_thumbnail_upload_to = partial(game_file_upload_to, 'thumbnails')
+
+
+def game_zip_info_default():
+  return {
+      'script_paths': []
+  }
 
 
 class Game(models.Model):
@@ -22,13 +28,20 @@ class Game(models.Model):
       users_models.Profile, on_delete=models.SET_NULL, related_name='own_games', null=True)
   description = models.TextField()
   thumbnail = models.ImageField(upload_to=game_thumbnail_upload_to)
-  js_script_file = models.FileField('Game script', upload_to=game_js_upload_to)
+  game_zip = models.FileField(upload_to=game_files_upload_to)
+  game_zip_info = models.JSONField(default=game_zip_info_default)
 
   class Meta:
     ordering = ['title']
 
+  def __str__(self):
+    return self.title
+
   def get_absolute_url(self):
-    return reverse('game', kwargs={'name': self.slug})
+    return reverse('game', kwargs={'slug': self.slug})
+
+  def get_script_urls(self):
+    return self.game_zip_info['script_paths']
 
 
 class GameResult(models.Model):

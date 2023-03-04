@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <div class="container">
+    {{object}}
+    <canvas id="canvas"></canvas>
+  </div>
+</section>
+{% endblock %}
+
+{% block script %}
+{% for script_url in game.get_script_urls %}
+<script src="{{script_url}}"></script>
+{% endfor %}
+{% endblock %}

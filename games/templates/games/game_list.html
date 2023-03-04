@@ -17,7 +17,7 @@
     {% for game in object_list %}
     <div class="border p-3">
       <div class="d-flex align-items-center justify-content-between">
-        <h3><a href="">{{game.title}}</a> by {{game.author}}</h3>
+        <h3><a href="{{game.get_absolute_url}}">{{game.title}}</a> by {{game.author}}</h3>
         <div></div>
       </div>
       <div class="row">
