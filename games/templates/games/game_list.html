@@ -5,17 +5,21 @@
   <div class="container w-75">
     <div class="d-flex align-items-center justify-content-between mb-3">
       <h3>{{object_list.count}} Games Aviable</h3>
-      <div class="btn-group" role="group" aria-label="Basic example">
-        <input type="radio" class="btn-check" name="filter" id="popularity" autocomplete="off" checked>
-        <label class="btn btn-primary" for="popularity">Popularity</label>
-        <input type="radio" class="btn-check" name="filter" id="recently_updated" autocomplete="off">
-        <label class="btn btn-primary" for="recently_updated">Recently Updated</label>
-        <input type="radio" class="btn-check" name="filter" id="alphabetically" autocomplete="off">
-        <label class="btn btn-primary" for="alphabetically">Alphabetically</label>
-      </div>
+      <form>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          {% for key, value in filter_choices.items %}
+          {% if value == current_filter %}
+          <input type="radio" class="btn-check" name="filter" value="{{key}}" id="{{key}}" autocomplete="off" checked>
+          {% else %}
+          <input type="radio" class="btn-check" name="filter" value="{{key}}" id="{{key}}" autocomplete="off">
+          {% endif %}
+          <button class="btn btn-primary" type="submit"><label for="{{key}}">{{key|title}}</label></button>
+          {% endfor %}
+        </div>
+      </form>
     </div>
     {% for game in object_list %}
-    <div class="border p-3">
+    <div class="border p-3 mb-2">
       <div class="d-flex align-items-center justify-content-between">
         <h3><a href="{{game.get_absolute_url}}">{{game.title}}</a> by {{game.author}}</h3>
         <div></div>

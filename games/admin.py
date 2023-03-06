@@ -3,7 +3,7 @@ from . import models
 
 
 class GameModelAdmin(admin.ModelAdmin):
-  list_display = ['id', 'title']
+  list_display = ['id', 'title', 'updated_time']
   prepopulated_fields = {'slug': ('title',)}
 
 

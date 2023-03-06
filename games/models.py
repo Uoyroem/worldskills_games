@@ -17,7 +17,8 @@ game_thumbnail_upload_to = partial(game_file_upload_to, 'thumbnails')
 
 def game_zip_info_default():
   return {
-      'script_paths': []
+      'script_paths': [],
+      'assets': {}
   }
 
 
@@ -30,6 +31,9 @@ class Game(models.Model):
   thumbnail = models.ImageField(upload_to=game_thumbnail_upload_to)
   game_zip = models.FileField(upload_to=game_files_upload_to)
   game_zip_info = models.JSONField(default=game_zip_info_default)
+  created_time = models.DateTimeField(auto_now_add=True)
+  updated_time = models.DateTimeField(auto_now=True)
+  play_count = models.IntegerField(default=0)
 
   class Meta:
     ordering = ['title']
@@ -42,6 +46,9 @@ class Game(models.Model):
 
   def get_script_urls(self):
     return self.game_zip_info['script_paths']
+
+  def get_assets(self):
+    return self.game_zip_info['assets']
 
 
 class GameResult(models.Model):

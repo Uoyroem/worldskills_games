@@ -1,15 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section>
+<section class="p-5">
   <div class="container">
-    {{object}}
-    <canvas id="canvas"></canvas>
+    <div class="d-flex flex-column align-items-center">
+      <div class="w-100 mb-3 d-flex justify-content-between align-items-center">
+        <h3>{{object}}</h3>
+        <div onclick="fullscreen()"><span class="material-icons">
+            open_in_full
+          </span></div>
+      </div>
+      <canvas id="canvas"></canvas>
+    </div>
   </div>
 </section>
 {% endblock %}
 
 {% block script %}
+<script>
+  function fullscreen() {
+    document.getElementById('canvas').requestFullscreen();
+  }
+</script>
+<script>
+  const assets = JSON.parse("{{object.get_assets|escapejs}}".replace(/'/g, '"'));
+</script>
 {% for script_url in game.get_script_urls %}
 <script src="{{script_url}}"></script>
 {% endfor %}
