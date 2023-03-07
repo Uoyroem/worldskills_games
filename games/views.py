@@ -31,8 +31,8 @@ class GameList(ListView):
   def get_current_filter(self):
     return self.filter_choices[self.request.GET.get('filter', 'popularity')]
 
-  def get_queryset(self):
-    return super().get_queryset().order_by(self.get_current_filter())
+  def get_ordering(self):
+    return '-' + self.get_current_filter()
 
 
 class GameCreate(LoginRequiredMixin, CreateView):

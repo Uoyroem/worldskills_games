@@ -29,6 +29,7 @@ class Game(models.Model):
       users_models.Profile, on_delete=models.SET_NULL, related_name='own_games', null=True)
   description = models.TextField()
   thumbnail = models.ImageField(upload_to=game_thumbnail_upload_to)
+
   game_zip = models.FileField(upload_to=game_files_upload_to)
   game_zip_info = models.JSONField(default=game_zip_info_default)
   created_time = models.DateTimeField(auto_now_add=True)

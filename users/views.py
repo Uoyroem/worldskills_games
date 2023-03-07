@@ -1,7 +1,9 @@
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth import logout, login
+from django.contrib.auth.views import LoginView
+
 
 from . import forms
 
@@ -17,6 +19,14 @@ class SignupView(CreateView):
     return redirect(self.get_success_url(), permanent=True)
 
 
-def logout_view(request):
+class SigninView(LoginView):
+  form_class = forms.SigninForm
+  template_name = 'users/signin.html'
+
+  def get_success_url(self) -> str:
+    return reverse_lazy('index')
+
+
+def signout_view(request):
   logout(request)
-  return redirect('index', permanent=True)
+  return redirect('signin', permanent=True)

@@ -18,7 +18,7 @@
         {% endfor %}
       </div>
       <button class="btn btn-primary me-3">Signup!</button>
-      <a href="">Уже есть аккаунт?</a>
+      <a href="{% url 'signin' %}">Уже есть аккаунт?</a>
       <div class="text-danger">
         {{form.non_field_errors}}
       </div>
