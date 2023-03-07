@@ -26,11 +26,10 @@
           <div>
             {% if user.is_authenticated %}
             <a class="me-3" href="#">{{user}}</a>
-            <a class="link-secondary" href="">Sign Out</a>
+            <a class="link-secondary" href="{% url 'signout' %}">Sign Out</a>
             {% else %}
             <a class="me-3" href="">Sign In</a>
-            <a class="link-secondary" href="#">Sign Up</a>
-
+            <a class="link-secondary" href="{% url 'signup' %}">Sign Up</a>
             {% endif %}
           </div>
         </div>
