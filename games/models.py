@@ -51,6 +51,12 @@ class Game(models.Model):
   def get_assets(self):
     return self.game_zip_info['assets']
 
+  def get_change_url(self):
+    return reverse('change_game', kwargs={'pk': self.pk})
+
+  def get_delete_url(self):
+    return reverse('delete_game', kwargs={'pk': self.pk})
+
 
 class GameResult(models.Model):
   profile = models.ForeignKey(

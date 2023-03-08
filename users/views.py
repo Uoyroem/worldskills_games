@@ -1,11 +1,15 @@
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
 
 
 from . import forms
+
+
+class ProifleView(TemplateView):
+  template_name = 'users/profile.html'
 
 
 class SignupView(CreateView):
