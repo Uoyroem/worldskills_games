@@ -7,8 +7,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.db.models import F
 
+from rest_framework import viewsets, mixins
+
 from . import models
 from . import forms
+from . import serializers
 
 
 class GameList(ListView):
@@ -70,17 +73,6 @@ class ManageGameView(ListView):
         return super().get_queryset().filter(author__user=self.request.user)
 
 
-def change_game(request: HttpRequest, pk):
-    if request.method == 'POST':
-        game = get_object_or_404(models.Game, pk=pk)
-        game.title = request.POST.get('new_title', game.title)
-        game.description = request.POST.get('new_description', game.description)
-        game.slug = request.POST.get('new_slug', game.slug)
-        game.thumbnail = request.FILES.get('new_thumbnail', game.thumbnail)
-        game.save()
-    return redirect('index')
-
-
-def delete_game(request, pk):
-    get_object_or_404(models.Game, pk=pk).delete()
-    return redirect('manage_games')
+class GameViewSet(mixins.UpdateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
+    queryset = models.Game.objects.all()
+    serializer_class = serializers.GameSerializer

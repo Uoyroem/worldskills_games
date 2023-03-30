@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 
+{% load method_override %}
+
 {% block content %}
 <section class="p-5">
   <div class="container">
     {% for game in object_list %}
-    <form action="{{game.get_change_url}}" method="post" enctype="multipart/form-data">
+    <form action="{{game.get_absolute_api_url}}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
+        {% method_override 'PUT' %}
       <input class="d-none" type="file" accept="image/*" name="new_image" id="new_image">
       <div class="border p-3 mb-2">
         <div class="row mb-2">
@@ -33,7 +36,11 @@
         </div>
         <div>
           <button class="btn btn-primary me-3">Save</button>
-          <a class="btn btn-danger ms-auto" href="{{game.get_delete_url}}">Delete game</a>
+{#            <form class="d-inline-block" action="{{game.get_absolute_api_url}}">#}
+{#                {% csrf_token %}#}
+{#                {% method_override 'DELETE' %}#}
+{#                <button class="btn btn-danger ms-auto" href="{{game.get_delete_url}}">Delete game</button>#}
+{#            </form>#}
         </div>
       </div>
     </form>
