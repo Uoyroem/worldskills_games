@@ -1,20 +1,24 @@
+import os
 
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.http import HttpRequest, HttpResponse
+from django.core.files.storage import default_storage, Storage
 from django.views.generic import DetailView, ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.db.models import F
+from django.conf import settings
+import subprocess
 
 from rest_framework import viewsets, mixins
 
 from . import models
 from . import forms
 from . import serializers
+from . import utils
 
 
-class GameList(ListView):
+class GameListView(ListView):
     template_name = 'games/index.html'
     model = models.Game
     filter_choices = {
@@ -45,17 +49,18 @@ class GameList(ListView):
             return current_filter
 
 
-class GameCreate(LoginRequiredMixin, CreateView):
+class GameCreateView(LoginRequiredMixin, CreateView):
     form_class = forms.GameCreationForm
     template_name = 'games/game_form.html'
     success_url = reverse_lazy('index')
 
     def form_valid(self, form) -> HttpResponse:
         form.instance.author = self.request.user.profile
+        os.makedirs(utils.game_dir_from_instance(form.instance))
         return super().form_valid(form)
 
 
-class GameDetailView(DetailView):
+class GameView(DetailView):
     model = models.Game
 
     def get_object(self, queryset=None):

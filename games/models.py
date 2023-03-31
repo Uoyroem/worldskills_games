@@ -1,12 +1,13 @@
+import os
 
 from django.db import models
 from django.urls import reverse
 
 from users import models as users_models
-
-
-def thumbnail_file_upload_to(instance: 'Game', filename: str):
-    return f'{instance.author}_{instance.author.pk}/thumbnail/{filename}'
+from . import utils
+from .utils import thumbnail_file_upload_to
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 
 
 class Game(models.Model):
@@ -29,8 +30,14 @@ class Game(models.Model):
     def get_absolute_url(self):
         return reverse('game', kwargs={'slug': self.slug})
 
-    def get_absolute_api_url(self):
+    def get_api_url(self):
         return reverse('game-detail', kwargs={'pk': self.pk})
+
+
+@receiver(pre_delete, sender=Game)
+def _(sender, instance, **kwargs):
+    os.removedirs(utils.game_dir_from_instance(instance))
+    os.remove(instance.thumbnail.path)
 
 
 class GameResult(models.Model):
