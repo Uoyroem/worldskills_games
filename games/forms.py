@@ -4,6 +4,8 @@ from . import models
 
 
 class GameCreationForm(forms.ModelForm):
+    github_url = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control'}))
+
     class Meta:
         model = models.Game
         fields = ['title', 'slug', 'description', 'thumbnail']

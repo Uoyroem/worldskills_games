@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
 from django.conf import settings
 import subprocess
+import git
 
 from rest_framework import viewsets, mixins
 
@@ -56,7 +57,8 @@ class GameCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form) -> HttpResponse:
         form.instance.author = self.request.user.profile
-        os.makedirs(utils.game_dir_from_instance(form.instance))
+        game_dir = utils.game_dir_from_instance(form.instance)
+        git.Git(game_dir).clone(form.github_url)
         return super().form_valid(form)
 
 
