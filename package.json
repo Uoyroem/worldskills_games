@@ -1,16 +1,25 @@
 {
   "name": "worldskills_games",
-  "version": "1.0.0",
-  "description": "",
   "scripts": {
-    "compile:scss": "sass --watch scss/main.scss worldskills_games/static/css/index.css"
+    "start-dev": "webpack --config ./frontend/webpack/webpack.config.dev.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
+    "@popperjs/core": "^2.11.7",
     "bootstrap": "^5.2.3",
-    "material-icons": "^1.13.1",
+    "material-icons": "^1.13.4",
     "sass": "^1.58.3"
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^5.2.6",
+    "css-loader": "^6.7.3",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.7.5",
+    "sass-loader": "^13.2.2",
+    "style-loader": "^3.3.2",
+    "ts-loader": "^9.4.2",
+    "webpack": "^5.77.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-merge": "^5.8.0"
   }
 }
