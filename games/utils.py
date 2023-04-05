@@ -16,6 +16,7 @@ def file_upload_to(instance, filename, dirs):
 
 
 thumbnail_file_upload_to = partial(file_upload_to, dirs=('thumbnail/',))
+script_file_upload_to = partial(file_upload_to, dirs=('script/',))
 
 
 def game_dir_from_instance(instance):

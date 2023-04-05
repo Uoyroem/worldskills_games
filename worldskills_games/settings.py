@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'games.middleware.JavaScriptContentTypeMiddleware'
 ]
 
 ROOT_URLCONF = 'worldskills_games.urls'

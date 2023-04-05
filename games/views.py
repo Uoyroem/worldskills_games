@@ -54,11 +54,10 @@ class GameCreateView(LoginRequiredMixin, CreateView):
     form_class = forms.GameCreationForm
     template_name = 'games/game_form.html'
     success_url = reverse_lazy('index')
+    login_url = reverse_lazy('signin')
 
     def form_valid(self, form) -> HttpResponse:
         form.instance.author = self.request.user.profile
-        game_dir = utils.game_dir_from_instance(form.instance)
-        git.Git(game_dir).clone(form.github_url)
         return super().form_valid(form)
 
 
@@ -72,9 +71,10 @@ class GameView(DetailView):
         return game
 
 
-class ManageGameView(ListView):
+class ManageGameView(LoginRequiredMixin, ListView):
     model = models.Game
     template_name = 'games/manage_games.html'
+    login_url = reverse_lazy('signin')
 
     def get_queryset(self):
         return super().get_queryset().filter(author__user=self.request.user)
@@ -83,3 +83,13 @@ class ManageGameView(ListView):
 class GameViewSet(mixins.UpdateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
     queryset = models.Game.objects.all()
     serializer_class = serializers.GameSerializer
+
+
+def js_file_view(request, filename):
+    file_path = os.path.join(settings.BASE_DIR, 'media/js', filename)
+
+    with open(file_path, 'rb') as f:
+        file_contents = f.read()
+
+    response = HttpResponse(file_contents, content_type='text/javascript')
+    return response

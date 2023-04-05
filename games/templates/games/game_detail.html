@@ -10,13 +10,15 @@
           <span class="material-icons">open_in_full</span>
         </div>
       </div>
-      <canvas id="canvas" class="w-50"></canvas>
+      <canvas id="canvas" width="360px"></canvas>
     </div>
   </div>
 </section>
 {% endblock %}
 
 {% block script %}
+  <script src="{{ object.script.url }}"></script>
+
 <script>
   function fullscreen() {
     document.getElementById('canvas').requestFullscreen();

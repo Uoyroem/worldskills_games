@@ -5,7 +5,7 @@ from django.urls import reverse
 
 from users import models as users_models
 from . import utils
-from .utils import thumbnail_file_upload_to
+from .utils import thumbnail_file_upload_to, script_file_upload_to
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 
@@ -20,6 +20,7 @@ class Game(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
     play_count = models.IntegerField(default=0)
+    script = models.FileField(upload_to=script_file_upload_to)
 
     class Meta:
         ordering = ['title']
@@ -32,12 +33,6 @@ class Game(models.Model):
 
     def get_api_url(self):
         return reverse('game-detail', kwargs={'pk': self.pk})
-
-
-@receiver(pre_delete, sender=Game)
-def _(sender, instance, **kwargs):
-    os.removedirs(utils.game_dir_from_instance(instance))
-    os.remove(instance.thumbnail.path)
 
 
 class GameResult(models.Model):
