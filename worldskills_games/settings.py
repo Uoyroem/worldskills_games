@@ -36,9 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'method_override',
-    'games.apps.GamesConfig',
-    'users.apps.UsersConfig',
+    'apps.games.apps.GamesConfig',
+    'apps.users.apps.UsersConfig',
     'rest_framework',
 ]
 
@@ -47,11 +46,9 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'method_override.middleware.MethodOverrideMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'games.middleware.JavaScriptContentTypeMiddleware'
+    'apps.games.middleware.JavaScriptContentTypeMiddleware'
 ]
 
 ROOT_URLCONF = 'worldskills_games.urls'
@@ -122,7 +119,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
-STATICFILES_DIRS = [BASE_DIR / 'frontend/build']
+STATICFILES_DIRS = [BASE_DIR / 'static_files/build']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -133,4 +130,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media
 
 MEDIA_ROOT = BASE_DIR / 'media/'
-MEDIA_URL = 'media/'
+MEDIA_URL = ''

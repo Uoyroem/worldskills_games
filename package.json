@@ -1,16 +1,25 @@
 {
   "name": "worldskills_games",
   "scripts": {
-    "start-dev": "webpack --config ./frontend/webpack/webpack.config.dev.js"
+    "start": "webpack serve --hot --config static_files/webpack.config.js",
+    "build_game_scripts": "webpack --config game_scripts/webpack.config.js"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.7",
     "bootstrap": "^5.2.3",
+    "jquery": "^3.6.4",
     "material-icons": "^1.13.4",
+    "phaser": "^3.55.2",
     "sass": "^1.58.3"
   },
   "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-typescript": "^7.21.4",
     "@types/bootstrap": "^5.2.6",
+    "@types/jquery": "^3.5.16",
+    "babel-loader": "^9.1.2",
     "css-loader": "^6.7.3",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
@@ -20,6 +29,7 @@
     "ts-loader": "^9.4.2",
     "webpack": "^5.77.0",
     "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.13.2",
     "webpack-merge": "^5.8.0"
   }
 }

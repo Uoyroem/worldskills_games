@@ -1,0 +1,33 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+@keyframes appearance {
+  from {
+    opacity: 0.25;
+    transform: translateX(15%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+*.appearance {
+  animation: appearance $appearance-duration ease-in;
+}
+
+.header {
+  padding: 1.75rem 0;
+}
+
+.footer {
+  margin-top: auto;
+  padding: 1.5rem 0;
+}
+
+.main {
+  height: max-content;
+}

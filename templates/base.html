@@ -9,48 +9,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{% static 'index.css' %}">
   {% block title %}
-  <title>WorldSkills - Games</title>
+    <title>WorldSkills - Games</title>
   {% endblock %}
 </head>
 
 <body>
-  <div class="page">
-    <header class="border pt-3 pb-3 m-1">
-      <div class="container">
-        <div class="d-flex align-items-center justify-content-between">
-          <h2>WorldSkills - Games</h2>
-          <nav class="nav justify-content-center">
-            <a class="nav-link active" href="{% url 'index' %}">Games</a>
-            <a class="nav-link" href="{% url 'create_new_game' %}">Create new game</a>
-            <a class="nav-link" href="{% url 'manage_games' %}">Manage your games</a>
-          </nav>
-          <div>
-            {% if user.is_authenticated %}
-            <a class="me-3" href="{% url 'profile' %}">{{user}}</a>
-            <a class="link-secondary" href="{% url 'signout' %}">Sign Out</a>
-            {% else %}
-            <a class="me-3" href="{% url 'signin' %}">Sign In</a>
-            <a class="link-secondary" href="{% url 'signup' %}">Sign Up</a>
-            {% endif %}
-          </div>
+<div class="page">
+  <header class="header">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between">
+        <h2 class="fw-bold user-select-none">WorldSkills - Games</h2>
+        <nav class="nav justify-content-center">
+          <a class="nav-link active" href="{% url 'games:game-list' %}">Games</a>
+          <a class="nav-link" href="{% url 'games:create-new-game' %}">Create new game</a>
+          <a class="nav-link" href="{% url 'games:manage-games' %}">Manage your games</a>
+        </nav>
+        <div>
+          {% if user.is_authenticated %}
+            <a class="me-3" href="{% url 'users:profile' %}">{{ user }}</a>
+            <a class="link-secondary" href="{% url 'users:signout' %}">Sign Out</a>
+          {% else %}
+            <a class="me-3" href="{% url 'users:signin' %}">Sign In</a>
+            <a class="link-secondary" href="{% url 'users:signup' %}">Sign Up</a>
+          {% endif %}
         </div>
       </div>
-    </header>
-    <main class="main border m-1">
-      {% block content %}
+    </div>
+  </header>
+  <main class="main">
+    {% block content %}
 
-      {% endblock %}
-    </main>
-    <footer class="border pt-3 pb-3 mt-auto m-1">
-      <div class="container">
-        Сделано на django
-      </div>
-    </footer>
-  </div>
-  <script src="{% static 'index.js' %}"></script>
-  {% block script %}
-  
-  {% endblock %}
+    {% endblock %}
+  </main>
+  <footer class="footer pt-3 pb-3 mt-auto">
+    <div class="container">
+      Сделано на django
+    </div>
+  </footer>
+</div>
+<script src="{% static 'index.js' %}"></script>
+{% block script %}
+
+{% endblock %}
 </body>
 
 </html>

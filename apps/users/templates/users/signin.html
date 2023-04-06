@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="p-5">
+  <div class="container">
+    <h3 class="mb-3">Login</h3>
+    <form class="w-50" method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        {% for field in form %}
+        <div class="form-group">
+          <label for="{{field.id_for_label}}">{{field.label}}</label>
+          <div>{{field}}</div>
+          <div class="form-text text-danger">
+            {{field.errors}}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <button class="btn btn-primary me-3">Login!</button>
+      <a href="{% url 'users:signup' %}">Don't you have an account?</a>
+      <div class="text-danger">
+        {{form.non_field_errors}}
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="p-5">
+    <div class="container">
+      <div class="d-flex flex-column align-items-center">
+        <div class="w-100 mb-3 d-flex justify-content-between align-items-center">
+          <h3>{{ object }}</h3>
+          <a class="btn btn-primary" href="{{ object.html_url }}">
+            Play!
+          </a>
+        </div>
+        <div>
+          <img class="img-fluid mb-4" src="{{ object.thumbnail_url }}" alt="">
+          <div class="d-flex justify-content-between">
+            <div class="w-50 pe-4">
+              <div class="w-100 mb-4">
+                <h4>Top 10 leaderboard</h4>
+                <div class="w-100">
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      # 1 John
+                    </div>
+                    <div>
+                      10000
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      # 2 Holy
+                    </div>
+                    <div>
+                      9999
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <h5>ActivePlayer</h5>
+                <div>
+                  100
+                </div>
+              </div>
+
+            </div>
+            <div class="w-50">
+              <h4>Description</h4>
+              <p>{{ object.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block script %}
+  <script src="{{ object.script_url }}"></script>
+  <script>
+      function fullscreen() {
+          document.getElementById('game').requestFullscreen();
+      }
+  </script>
+{% endblock %}

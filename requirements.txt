@@ -1,5 +1,4 @@
 django
 djangorestframework
 pillow
-django-method-override
 GitPython
