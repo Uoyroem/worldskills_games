@@ -10,7 +10,7 @@
             Play!
           </a>
         </div>
-        <div>
+        <div class="d-flex flex-column align-items-center">
           <img class="img-fluid mb-4" src="{{ object.thumbnail_url }}" alt="">
           <div class="d-flex justify-content-between">
             <div class="w-50 pe-4">
@@ -55,7 +55,7 @@
 {% endblock %}
 
 {% block script %}
-  <script src="{{ object.script_url }}"></script>
+  <script src="{{ object.extracting_script_url }}"></script>
   <script>
       function fullscreen() {
           document.getElementById('game').requestFullscreen();

@@ -13,7 +13,7 @@
           {% else %}
           <input type="radio" class="btn-check" name="filter" value="{{key}}" id="{{key}}" autocomplete="off">
           {% endif %}
-          <button class="btn btn-primary" type="submit" data-check="{{key}}">{{key|title}}</button>
+          <button class="btn btn-primary" type="submit" data-check="{{key}}">{{key}}</button>
           {% endfor %}
         </div>
         <div class="btn-group" role="group" aria-label="Basic example">
@@ -33,13 +33,13 @@
       </form>
     </div>
     {% for game in object_list %}
-    <div>
+    <div class="mb-4">
       <div class="d-flex align-items-center justify-content-between">
         <h3><a href="{{game.get_absolute_url}}">{{game.title}}</a> by {{game.author}}</h3>
         <div></div>
       </div>
       <div class="row">
-        <div class="col-4">
+        <div class="d-flex col-4 justify-content-center">
           <img class="img-fluid" src="{{game.thumbnail_url}}" alt="">
         </div>
         <p class="col-8">{{game.description}}</p>

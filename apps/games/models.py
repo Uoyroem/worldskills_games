@@ -23,8 +23,10 @@ class Game(models.Model):
     play_count = models.IntegerField(default=0)
     game_zip = models.FileField(validators=[FileExtensionValidator(allowed_extensions=['zip'])])
 
-    script = models.CharField(max_length=255,
-                              default='index.js')
+    extracting_script = models.CharField(verbose_name='Script for extracting the result',
+                                         max_length=255,
+                                         default='result_extracting.js')
+
     thumbnail = models.CharField(max_length=255,
                                  default='thumbnail.png')
     html = models.CharField(max_length=255,
@@ -32,11 +34,11 @@ class Game(models.Model):
 
     @property
     def html_url(self):
-        return os.path.join('http://localhost:8000/', self.get_absolute_url().removeprefix('/'), self.html)
+        return os.path.join(self.get_absolute_url(), self.html)
 
     @property
-    def script_url(self):
-        return os.path.join(self.get_absolute_url(), self.script)
+    def extracting_script_url(self):
+        return os.path.join(self.get_absolute_url(), self.extracting_script)
 
     @property
     def thumbnail_url(self):
