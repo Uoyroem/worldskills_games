@@ -17,3 +17,16 @@ class GameCreationForm(forms.ModelForm):
             'html': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
+
+
+class GameResultForm(forms.ModelForm):
+    class Meta:
+        model = models.GameResult
+        fields = ['points']
+        widgets = {
+            'points': forms.NumberInput(attrs={'class': 'd-none'})
+        }
+        labels = {
+
+        }
+

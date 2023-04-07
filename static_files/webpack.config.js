@@ -5,7 +5,8 @@ module.exports = {
     mode: 'development',
     entry: {
         index: path.join(__dirname, 'ts/index.ts'),
-        add_appearance: path.join(__dirname, 'ts/add_appearance.ts')
+        add_appearance: path.join(__dirname, 'ts/add_appearance.ts'),
+        game_detail: path.join(__dirname, 'ts/game_detail.ts')
     },
     output: {
         path: path.join(__dirname, 'build'),

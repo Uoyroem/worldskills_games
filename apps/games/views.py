@@ -68,6 +68,13 @@ class GameCreateView(LoginRequiredMixin, CreateView):
 class GameView(DetailView):
     model = models.Game
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['game_result'] = forms.GameResultForm(data={
+            'points': 0
+        })
+        return context
+
     def get_object(self, queryset=None):
         game = super().get_object(queryset)
         game.play_count = F('play_count') + 1
@@ -82,6 +89,8 @@ class ManageGameView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(author__user=self.request.user)
+
+
 
 
 class GameViewSet(mixins.UpdateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
