@@ -1,51 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="p-5">
-  <div class="container w-75">
-    <div class="d-flex align-items-center justify-content-between mb-3">
-      <h3>{{object_list.count}} Games Aviable</h3>
-      <form>
-        <div class="btn-group" role="group" aria-label="Basic example">
-          {% for key, value in filter_choices.items %}
-          {% if value == current_filter %}
-          <input type="radio" class="btn-check" name="filter" value="{{key}}" id="{{key}}" autocomplete="off" checked>
-          {% else %}
-          <input type="radio" class="btn-check" name="filter" value="{{key}}" id="{{key}}" autocomplete="off">
-          {% endif %}
-          <button class="btn btn-primary" type="submit" data-check="{{key}}">{{key}}</button>
-          {% endfor %}
-        </div>
-        <div class="btn-group" role="group" aria-label="Basic example">
-          {% if current_sort == 'asc' %}
-          <input type="radio" class="btn-check" name="sort" value="asc" id="asc" autocomplete="off" checked>
-          {% else %}
-          <input type="radio" class="btn-check" name="sort" value="asc" id="asc" autocomplete="off">
-          {% endif %}
-          <button class="btn btn-primary" type="submit" data-check="asc">ASC</button>
-          {% if current_sort == 'desc' %}
-          <input type="radio" class="btn-check" name="sort" value="desc" id="desc" autocomplete="off" checked>
-          {% else %}
-          <input type="radio" class="btn-check" name="sort" value="desc" id="desc" autocomplete="off">
-          {% endif %}
-          <button class="btn btn-primary" type="submit" data-check="desc">DESC</button>
-        </div>
-      </form>
-    </div>
-    {% for game in object_list %}
-    <div class="mb-4">
-      <div class="d-flex align-items-center justify-content-between">
-        <h3><a href="{{game.get_absolute_url}}">{{game.title}}</a> by {{game.author}}</h3>
-        <div></div>
+  <section class="p-5">
+    <div class="container w-75">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3>{{ object_list.count }} Games Aviable</h3>
+        <form>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            {% for key, value in filter_choices.items %}
+              {% if value == current_filter %}
+                <input type="radio" class="btn-check" name="filter" value="{{ key }}" id="{{ key }}" autocomplete="off"
+                       checked>
+              {% else %}
+                <input type="radio" class="btn-check" name="filter" value="{{ key }}" id="{{ key }}" autocomplete="off">
+              {% endif %}
+              <button class="btn btn-primary" type="submit" data-check="{{ key }}">{{ key }}</button>
+            {% endfor %}
+          </div>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            {% if current_sort == 'asc' %}
+              <input type="radio" class="btn-check" name="sort" value="asc" id="asc" autocomplete="off" checked>
+            {% else %}
+              <input type="radio" class="btn-check" name="sort" value="asc" id="asc" autocomplete="off">
+            {% endif %}
+            <button class="btn btn-primary" type="submit" data-check="asc">ASC</button>
+            {% if current_sort == 'desc' %}
+              <input type="radio" class="btn-check" name="sort" value="desc" id="desc" autocomplete="off" checked>
+            {% else %}
+              <input type="radio" class="btn-check" name="sort" value="desc" id="desc" autocomplete="off">
+            {% endif %}
+            <button class="btn btn-primary" type="submit" data-check="desc">DESC</button>
+          </div>
+        </form>
       </div>
-      <div class="row">
-        <div class="d-flex col-4 justify-content-center">
-          <img class="img-fluid" src="{{game.thumbnail_url}}" alt="">
+      {% for game in object_list %}
+        <div class="mb-4">
+          {% include 'games/game_item.html' %}
         </div>
-        <p class="col-8">{{game.description}}</p>
-      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
-</section>
+  </section>
 {% endblock %}

@@ -2,10 +2,12 @@ import os
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView, CreateView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets, mixins
 import zipfile
 
@@ -47,7 +49,7 @@ class GameListView(ListView):
 
 
 class GameCreateView(LoginRequiredMixin, CreateView):
-    form_class = forms.GameCreationForm
+    form_class = forms.GameForm
     template_name = 'games/game_form.html'
     success_url = reverse_lazy('games:game-list')
     login_url = reverse_lazy('users:signin')
@@ -69,11 +71,34 @@ class GameView(DetailView):
     model = models.Game
 
     def get_context_data(self, **kwargs):
+        from contextlib import suppress
         context = super().get_context_data(**kwargs)
-        context['game_result'] = forms.GameResultForm(data={
+        context['game_result_form'] = forms.GameResultForm(data={
             'points': 0
         })
+
+        with suppress(ObjectDoesNotExist):
+            context['profile_game_result'] = (self.request.user
+                                              and self.request.user.profile.game_results.get(game=context['object']))
         return context
+
+    def post(self, request, slug):
+        game = self.get_queryset().get(slug=slug)
+
+        try:
+            points = int(request.POST.get('points'))
+            game_result = self.request.user.profile.game_results.get(game=game)
+            if points > game_result.points:
+                game_result.points = points
+                game_result.save()
+        except ObjectDoesNotExist:
+            form = forms.GameResultForm(request.POST)
+            game_result = form.save(commit=False)
+            game_result.profile = self.request.user.profile
+            game_result.game = game
+            game_result.save()
+        finally:
+            return redirect(game.get_absolute_url(), permament=True)
 
     def get_object(self, queryset=None):
         game = super().get_object(queryset)
@@ -82,17 +107,21 @@ class GameView(DetailView):
         return game
 
 
-class ManageGameView(LoginRequiredMixin, ListView):
+class ManageGameView(LoginRequiredMixin, UpdateView):
+    form_class = forms.GameForm
     model = models.Game
-    template_name = 'games/manage_games.html'
+    template_name = 'games/manage_game.html'
     login_url = reverse_lazy('users:signin')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        return context
+
     def get_queryset(self):
-        return super().get_queryset().filter(author__user=self.request.user)
+        return super().get_queryset().filter(author=self.request.user.profile)
 
 
-
-
-class GameViewSet(mixins.UpdateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
-    queryset = models.Game.objects.all()
-    serializer_class = serializers.GameSerializer
+class GameDeleteView(LoginRequiredMixin, UpdateView):
+    model = models.Game
+    fields = '__all__'
+    success_url = reverse_lazy('games:list')

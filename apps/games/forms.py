@@ -3,7 +3,7 @@ from django import forms
 from . import models
 
 
-class GameCreationForm(forms.ModelForm):
+class GameForm(forms.ModelForm):
 
     class Meta:
         model = models.Game
@@ -25,8 +25,5 @@ class GameResultForm(forms.ModelForm):
         fields = ['points']
         widgets = {
             'points': forms.NumberInput(attrs={'class': 'd-none'})
-        }
-        labels = {
-
         }
 

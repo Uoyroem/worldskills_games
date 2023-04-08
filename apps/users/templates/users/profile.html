@@ -1,9 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="p-5">
-  <div class="container">
-    PROFILE
-  </div>
-</section>
+  <section class="p-5">
+    <div class="container">
+      <h2>{{ user }}</h2>
+      <div class="mt-4">
+        <h5>Authored Games</h5>
+
+        {% for game in user.profile.own_games.all %}
+          <div class="mb-4">
+            {% include 'games/game_item.html' %}
+            <div class="text-center">
+              <a class="btn btn-secondary" href="{{ game.get_manage_url }}">Manage {{ game }}</a>
+
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="mt-4">
+        <h5>
+          Highscores per Game
+        </h5>
+        <div class="w-100">
+          {% for game_result in user.profile.game_results.all %}
+            <div class="w-25 d-flex align-items-center justify-content-between">
+              <div>{{ game_result.game }}</div>
+              <div>{{ game_result.points }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
 {% endblock %}

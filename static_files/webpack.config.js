@@ -20,7 +20,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.[tj]s$/,
+                test: /\.(d.ts|ts|js)$/,
                 loader: 'babel-loader'
             },
             {
@@ -41,13 +41,6 @@ module.exports = {
                 type: 'asset'
             },
         ]
-    },
-    devServer: {
-        hot: true,
-        compress: true,
-        devMiddleware: {
-            writeToDisk: true
-        }
     }
 };
 

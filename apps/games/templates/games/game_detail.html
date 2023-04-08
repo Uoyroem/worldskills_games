@@ -10,7 +10,8 @@
 
           </h4>
           <form method="post">
-            {{ game_result }}
+            {% csrf_token %}
+            {{ game_result_form.points }}
             <button class="btn btn-outline-primary" type="submit">Save game result</button>
           </form>
         </div>
@@ -21,30 +22,35 @@
               <div class="w-100 mb-4">
                 <h4>Top 10 leaderboard</h4>
                 <div class="w-100">
-                  <div class="d-flex justify-content-between">
-                    <div>
-                      # 1 John
+                  {% for game_result in object.game_results.all %}
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        {{ game_result.profile }}
+                      </div>
+                      <div>
+                        {{ game_result.points }}
+                      </div>
                     </div>
-                    <div>
-                      10000
+                  {% empty %}
+                    <div class="text-danger">
+                    There are no results here yet, but you can play the game and be the first to save the results.
                     </div>
-                  </div>
-                  <div class="d-flex justify-content-between">
-                    <div>
-                      # 2 Holy
-                    </div>
-                    <div>
-                      9999
-                    </div>
-                  </div>
+                  {% endfor %}
                 </div>
               </div>
-              <div class="d-flex justify-content-between">
-                <h5>ActivePlayer</h5>
+            {% if user.is_authenticated %}
+            <div class="d-flex justify-content-between">
+                <h5>{{ user }}</h5>
                 <div>
-                  100
+                  {% if profile_game_result %}
+                    {{profile_game_result.points}}
+                  {% else %}
+                    <span class="text-danger">You have not saved the result of the game.</span>
+                  {% endif %}
                 </div>
               </div>
+            {% endif %}
+
 
             </div>
             <div class="w-50">

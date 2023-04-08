@@ -1,7 +1,7 @@
 {
   "name": "worldskills_games",
   "scripts": {
-    "start": "webpack serve --hot --config static_files/webpack.config.js"
+    "start": "webpack --watch --config static_files/webpack.config.js"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.7",

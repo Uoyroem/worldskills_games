@@ -50,11 +50,14 @@ class Game(models.Model):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
-        return reverse('games:game-detail', kwargs={'slug': self.slug})
+    def get_delete_url(self):
+        return reverse('games:delete', kwargs={'slug': self.slug})
 
-    def get_api_url(self):
-        return reverse('game-detail', kwargs={'pk': self.pk})
+    def get_manage_url(self):
+        return reverse('games:manage', kwargs={'slug': self.slug})
+
+    def get_absolute_url(self):
+        return reverse('games:detail', kwargs={'slug': self.slug})
 
 
 class GameResult(models.Model):
