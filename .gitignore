@@ -3,7 +3,7 @@ package-lock.json
 db.sqlite3
 media
 .idea
-static_files/build
+
 */**/__pycache__
 apps/*/migrations/*.py
 !apps/*/migrations/__init__.py
