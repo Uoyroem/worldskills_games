@@ -14,7 +14,7 @@ class ProfileView(TemplateView):
 class SignupView(CreateView):
     form_class = forms.SignupForm
     template_name = 'users/signup.html'
-    success_url = reverse_lazy('games:game-list')
+    success_url = reverse_lazy('games:list')
 
     def form_valid(self, form):
         user = form.save()
@@ -27,7 +27,7 @@ class SigninView(LoginView):
     template_name = 'users/signin.html'
 
     def get_success_url(self) -> str:
-        return reverse_lazy('games:game-list')
+        return reverse_lazy('games:list')
 
 
 def signout_view(request):
