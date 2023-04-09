@@ -15,15 +15,16 @@ import zipfile
 from . import forms
 from . import models
 from . import serializers
+from .services import game_creation
 
 
 class GameListView(ListView):
     template_name = 'games/game_list.html'
     model = models.Game
     filter_choices = {
-        'popularity': 'play_count',
-        'recently_updated': 'updated_time',
-        'alphabetically': 'title'
+        'popularity': ('play_count', 'Popularity'),
+        'recently_updated': ('updated_time', 'Recently Updated'),
+        'alphabetically': ('title', 'Alphabetically')
     }
 
     def get_context_data(self, **kwargs):
@@ -43,27 +44,20 @@ class GameListView(ListView):
         current_sort_filter = self.get_current_sort()
         current_filter = self.get_current_filter()
         if current_sort_filter == 'desc':
-            return '-' + current_filter
+            return '-' + current_filter[0]
         elif current_sort_filter == 'asc':
-            return current_filter
+            return current_filter[0]
 
 
 class GameCreateView(LoginRequiredMixin, CreateView):
     form_class = forms.GameForm
     template_name = 'games/game_form.html'
-    success_url = reverse_lazy('games:game-list')
+    success_url = reverse_lazy('games:list')
     login_url = reverse_lazy('users:signin')
 
     def form_valid(self, form) -> HttpResponse:
         form.instance.author = self.request.user.profile
-        if settings.DEBUG:
-            with zipfile.ZipFile(form.instance.game_zip) as game_zip:
-                game_zip.extractall(
-                    path=os.path.join(
-                        settings.MEDIA_ROOT,
-                        form.instance.get_absolute_url().removeprefix('/')
-                    )
-                )
+        game_creation.extract_zip_to_media(form.instance, form.instance.game_zip.file)
         return super().form_valid(form)
 
 
@@ -71,15 +65,10 @@ class GameView(DetailView):
     model = models.Game
 
     def get_context_data(self, **kwargs):
-        from contextlib import suppress
         context = super().get_context_data(**kwargs)
         context['game_result_form'] = forms.GameResultForm(data={
             'points': 0
         })
-
-        with suppress(ObjectDoesNotExist):
-            context['profile_game_result'] = (self.request.user
-                                              and self.request.user.profile.game_results.get(game=context['object']))
         return context
 
     def post(self, request, slug):
@@ -113,6 +102,14 @@ class ManageGameView(LoginRequiredMixin, UpdateView):
     template_name = 'games/manage_game.html'
     login_url = reverse_lazy('users:signin')
 
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        if 'game_zip' in form.cleaned_data:
+            instance = self.get_object()
+            game_creation.remove_game_in_media(instance)
+            game_creation.extract_zip_to_media(instance, form.cleaned_data['game_zip'])
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         return context
@@ -121,7 +118,7 @@ class ManageGameView(LoginRequiredMixin, UpdateView):
         return super().get_queryset().filter(author=self.request.user.profile)
 
 
-class GameDeleteView(LoginRequiredMixin, UpdateView):
+class GameDeleteView(LoginRequiredMixin, DeleteView):
     model = models.Game
-    fields = '__all__'
     success_url = reverse_lazy('games:list')
+

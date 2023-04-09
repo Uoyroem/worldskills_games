@@ -14,7 +14,7 @@
               {% else %}
                 <input type="radio" class="btn-check" name="filter" value="{{ key }}" id="{{ key }}" autocomplete="off">
               {% endif %}
-              <button class="btn btn-primary" type="submit" data-check="{{ key }}">{{ key }}</button>
+              <button class="btn btn-primary" type="submit" data-check="{{ key }}">{{ value.1 }}</button>
             {% endfor %}
           </div>
           <div class="btn-group" role="group" aria-label="Basic example">

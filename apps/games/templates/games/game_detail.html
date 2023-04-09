@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static game_result %}
 {% block content %}
   <section class="p-5">
     <div class="container">
@@ -12,7 +12,7 @@
           <form method="post">
             {% csrf_token %}
             {{ game_result_form.points }}
-            <button class="btn btn-outline-primary" type="submit">Save game result</button>
+            <button class="btn btn-outline-primary" type="submit" {% if user.is_anonymous %}disabled{% endif %}>Save game result</button>
           </form>
         </div>
         <div class="w-100 d-flex flex-column align-items-center">
@@ -42,8 +42,9 @@
             <div class="d-flex justify-content-between">
                 <h5>{{ user }}</h5>
                 <div>
-                  {% if profile_game_result %}
-                    {{profile_game_result.points}}
+                  {% game_result_from_game_and_profile game user.profile as game_result %}
+                  {% if game_result %}
+                    {{game_result.points}}
                   {% else %}
                     <span class="text-danger">You have not saved the result of the game.</span>
                   {% endif %}

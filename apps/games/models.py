@@ -10,6 +10,7 @@ from ..users import models as users_models
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from .utils import upload_to
+from .services import game_creation
 
 
 class Game(models.Model):
@@ -21,7 +22,8 @@ class Game(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
     play_count = models.IntegerField(default=0)
-    game_zip = models.FileField(validators=[FileExtensionValidator(allowed_extensions=['zip'])])
+    game_zip = models.FileField(upload_to='games',
+                                validators=[FileExtensionValidator(allowed_extensions=['zip'])])
 
     extracting_script = models.CharField(verbose_name='Script for extracting the result',
                                          max_length=255,
@@ -58,6 +60,11 @@ class Game(models.Model):
 
     def get_absolute_url(self):
         return reverse('games:detail', kwargs={'slug': self.slug})
+
+
+@receiver(pre_delete, sender=Game)
+def _(sender, instance, **kwargs):
+    game_creation.remove_game_in_media(instance)
 
 
 class GameResult(models.Model):

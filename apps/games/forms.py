@@ -24,6 +24,6 @@ class GameResultForm(forms.ModelForm):
         model = models.GameResult
         fields = ['points']
         widgets = {
-            'points': forms.NumberInput(attrs={'class': 'd-none'})
+            'points': forms.NumberInput(attrs={'hidden': True})
         }
 
